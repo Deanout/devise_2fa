@@ -1,0 +1,15 @@
+<h2>Scan the QR Code to Enable Two Factor Authentication</h2>
+<div>
+  <%= raw RQRCode::QRCode.new(current_user.otp_provisioning_uri(current_user.email, issuer: "Devise-Two-Factor-Demo"),
+                              :svg,
+                              :level => :l,
+                              :unit => 2).as_svg %>
+</div>
+<%= form_tag(enable_otp_verify_path, method: :post) do %>
+  <div>
+    <label for="otp_attempt">Enter OTP</label>
+    <%= text_field_tag :otp_attempt %>
+  </div>
+  <%= submit_tag "Verify and Enable" %>
+<% end %>
+<%= link_to "Back", edit_user_registration_path %>
